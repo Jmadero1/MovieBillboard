@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import styled from "styled-components";
-import { auth, provider, signInWithPopup } from "../firebase";  
+import { auth, provider, signInWithPopup } from "../firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import {
@@ -9,28 +9,29 @@ import {
   setUserLoginDetails,
 } from "../features/userSlice";
 
-const Header = (props) => {
+const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userName = useSelector(selectUserName);
   const userPhoto = useSelector(selectUserPhoto);
 
   useEffect(() => {
-    auth.onAuthStateChanged(async (user) => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setUser(user);
-        history.push("/home");
+        navigate("/home");
       }
     });
-  }, [userName]);
 
+    return () => unsubscribe();
+  }, [userName, navigate]);
 
   const handleAuth = async () => {
     try {
-      const result = await signInWithPopup(auth, provider);  
+      const result = await signInWithPopup(auth, provider);
       setUser(result.user);
     } catch (error) {
-      console.error("Authentication Error: ", error.message); 
+      console.error("Authentication Error: ", error.message);
       alert("Error signing in: " + error.message);
     }
   };
@@ -93,6 +94,21 @@ const Header = (props) => {
   );
 };
 
+// Define el componente `Logo` correctamente
+const Logo = styled.a`
+  padding: 0;
+  width: 80px;
+  margin-top: 4px;
+  max-height: 70px;
+  font-size: 0;
+  display: inline-block;
+
+  img {
+    display: block;
+    width: 100%;
+  }
+`;
+
 const Nav = styled.nav`
   position: fixed;
   top: 0;
@@ -106,20 +122,6 @@ const Nav = styled.nav`
   padding: 0 36px;
   letter-spacing: 16px;
   z-index: 3;
-`;
-
-const Logo = styled.a`
-  padding: 0;
-  width: 80px;
-  margin-top: 4px;
-  max-height: 70px;
-  font-size: 0;
-  display: inline-block;
-
-  img {
-    display: block;
-    width: 100%;
-  }
 `;
 
 const NavMenu = styled.div`
