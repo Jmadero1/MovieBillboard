@@ -1,7 +1,8 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInAnonymously } from "firebase/auth";  // Importa también signInAnonymously
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInAnonymously } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
+// Configuración de Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyCwTLcqsLYGUFn0UOMUqskyiA9guRtEdys",
   authDomain: "movie-billboard.firebaseapp.com",
@@ -12,9 +13,13 @@ const firebaseConfig = {
   measurementId: "G-2CZETKJJ51"
 };
 
+// Inicializa la aplicación de Firebase
 const app = initializeApp(firebaseConfig);
+
+// Instancias de Firebase
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 const db = getFirestore(app);
 
-export { auth, provider, db, signInWithPopup, signInAnonymously };  // Exporta también signInAnonymously
+
+export default { auth, provider, db, signInWithPopup, signInAnonymously };
