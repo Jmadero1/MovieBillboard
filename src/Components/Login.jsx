@@ -5,7 +5,7 @@ const Login = () => {
     <Container>
       <Content>
         <CTA>
-          <CTALogoOne src="./images/cta-logo-one.svg" alt="Disney+ Logo" />
+          <CTALogoOne src="./images/MOVIEBILLBOARD.png" alt="Movie Billboard" />
           <SignUp>GET ALL THERE</SignUp>
           <Description>
             Get Premier Access to Raya and the Last Dragon for an additional fee
@@ -67,7 +67,7 @@ const CTALogoOne = styled.img`
   max-width: 600px;
   min-height: 1px;
   display: block;
-  width: 100%;
+  width: 50%;
 `;
 
 const SignUp = styled.a`
