@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { db, onSnapshot, collection } from "../firebase";
+import { db } from "../firebase";
 
 const Detail = (props) => {
   const { id } = useParams();
@@ -61,7 +61,7 @@ const Detail = (props) => {
 
 const Container = styled.div`
   position: relative;
-  min-height: calc(100vh-250px);
+  min-height: calc(100vh - 250px);
   overflow-x: hidden;
   display: block;
   top: 72px;
@@ -129,7 +129,7 @@ const Player = styled.button`
   letter-spacing: 1.8px;
   text-align: center;
   text-transform: uppercase;
-  background: rgb (249, 249, 249);
+  background: rgb(249, 249, 249);
   border: none;
   color: rgb(0, 0, 0);
 

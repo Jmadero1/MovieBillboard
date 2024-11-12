@@ -6,61 +6,61 @@ import NewDisney from "./NewDisney";
 import Originals from "./Originals";
 import Recommends from "./Recommends";
 import Trending from "./Trending";
-import Viewers from "./Viewers";
+import Viewers from "./Viewers"; 
 import { db, onSnapshot, collection } from "../firebase";
 import { setMovies } from "../features/movie/movieSlice";
 import { selectUserName } from "../features/userSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const userName = useSelector(selectUserName);
+  const { userName } = useSelector(selectUserName); // Desestructuración
 
+  // Efecto para cargar las películas desde Firestore
   useEffect(() => {
-    console.log("hello");
-    const recommends = [];
-    const newDisneys = [];
-    const originals = [];
-    const trending = [];
+    const moviesCollection = collection(db, "movies"); // Nombre de la colección
 
-    
-    const moviesCollection = collection(db, "movies");
+    const unsubscribe = onSnapshot(moviesCollection, (snapshot) => {
+      const categorizedMovies = {
+        recommend: [],
+        newDisney: [],
+        original: [],
+        trending: [],
+      };
 
-    onSnapshot(moviesCollection, (snapshot) => {
       snapshot.docs.forEach((doc) => {
+        const movieData = { id: doc.id, ...doc.data() };
+
+        // Clasificando las películas según el tipo
         switch (doc.data().type) {
           case "recommend":
-            recommends.push({ id: doc.id, ...doc.data() });
+            categorizedMovies.recommend.push(movieData);
             break;
           case "new":
-            newDisneys.push({ id: doc.id, ...doc.data() });
+            categorizedMovies.newDisney.push(movieData);
             break;
           case "original":
-            originals.push({ id: doc.id, ...doc.data() });
+            categorizedMovies.original.push(movieData);
             break;
           case "trending":
-            trending.push({ id: doc.id, ...doc.data() });
+            categorizedMovies.trending.push(movieData);
             break;
           default:
             break;
         }
       });
 
-      dispatch(
-        setMovies({
-          recommend: recommends,
-          newDisney: newDisneys,
-          original: originals,
-          trending: trending,
-        })
-      );
+      // Dispatch a Redux action para actualizar el estado con las películas
+      dispatch(setMovies(categorizedMovies));
     });
-  }, [userName, dispatch]);
+
+    return () => unsubscribe(); // Limpiar suscripción al desmontar el componente
+  }, [dispatch, userName]);
 
   return (
     <Container>
       <ImgSlider />
       <Viewers />
-      <Recommends/>
+      <Recommends />
       <NewDisney />
       <Originals />
       <Trending />
@@ -68,6 +68,7 @@ const Home = () => {
   );
 };
 
+// Estilos
 const Container = styled.main`
   position: relative;
   min-height: calc(100vh - 250px);
