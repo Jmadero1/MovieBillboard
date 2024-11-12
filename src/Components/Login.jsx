@@ -1,18 +1,12 @@
 import styled from "styled-components";
 
 const Login = () => {
-  // Esta función manejará el login como invitado
-  const handleGuestLogin = () => {
-    // Aquí puedes definir cómo manejar el login como invitado (ejemplo: establecer un usuario predeterminado)
-    console.log("Logged in as guest");
-  };
-
   return (
     <Container>
       <Content>
         <CTA>
           <CTALogoOne src="./images/cta-logo-one.svg" alt="Disney+ Logo" />
-          <SignUp onClick={handleGuestLogin}>ENTER AS GUEST</SignUp>
+          <SignUp>GET ALL THERE</SignUp>
           <Description>
             Get Premier Access to Raya and the Last Dragon for an additional fee
             with a Disney+ subscription. As of 03/26/21, the price of Disney+
